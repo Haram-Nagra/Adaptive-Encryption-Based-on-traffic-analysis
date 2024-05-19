@@ -9,7 +9,7 @@ export default function Layout({children}) {
                 <Link to={"/"}>Home</Link>
             </div>
             <div className="flex flex-row p-3 gap-x-10 ">
-                <Link to={"/decrypt"} className="hidden text-sm md:block hover:underline">Decrypt</Link>
+                <Link to={"/decrypt"} className="hidden text-sm md:block hover:underline" >Decrypt</Link>
                 <button className=" rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] hidden md:block hover:scale-125 transition-all duration-300">
                     <Link to={"/encrypt"} className="hidden text-sm md:block">Encrypt</Link>
                 </button>
