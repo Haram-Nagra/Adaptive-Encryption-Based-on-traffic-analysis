@@ -30,9 +30,9 @@ class AdaptiveEncryption:
         return net_io.bytes_sent + net_io.bytes_recv
 
     def adjust_encryption_strength(self, traffic_volume):
-        if traffic_volume > 1000000:  # High traffic threshold (example)
+        if traffic_volume >= 10:  # High traffic threshold (example)
             self.current_key_size = self.key_sizes[2]
-        elif traffic_volume > 500000:  # Medium traffic threshold (example)
+        elif traffic_volume >= 5:  # Medium traffic threshold (example)
             self.current_key_size = self.key_sizes[1]
         else:
             self.current_key_size = self.key_sizes[0]
@@ -53,17 +53,22 @@ adaptive_encryption = AdaptiveEncryption()
 @app.route('/encrypt', methods=['POST'])
 def encrypt():
     data = request.json.get('data')
+    threshold = request.json.get('threshold')  # New parameter
+    
     if not data:
         return jsonify({'error': 'No data provided'}), 400
     
     data_bytes = data.encode()
-    nonce, ciphertext, tag = adaptive_encryption.run(data_bytes)
+    adaptive_encryption.adjust_encryption_strength(threshold)
+    nonce, ciphertext, tag = adaptive_encryption.encrypt(data_bytes)
+    key_size = adaptive_encryption.current_key_size * 8  # Get key size
     return jsonify({
-        'key_size': adaptive_encryption.current_key_size * 8,  # Convert key size to bits
         'nonce': nonce.hex(),
         'ciphertext': ciphertext.hex(),
-        'tag': tag.hex()
+        'tag': tag.hex(),
+        'key_size': key_size  # Include key size in the response
     })
+
 
 @app.route('/decrypt', methods=['POST'])
 def decrypt():

@@ -18,12 +18,16 @@ const DecryptionForm = () => {
     return (
         <div className='font-serif mt-36 flex flex-col items-center gap-y-10 bg-gradient from-[#000000] to-[#130F40]'>
             <h1 className='text-4xl text-center text-white font-bold'>Decrypt Data</h1>
-            <button
-                className="rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] text-white hidden md:block hover:scale-125 transition-all duration-300"
-                onClick={handleDecrypt}
-            >
-                Decrypt
-            </button>
+            {encryptedData ? (
+                <button
+                    className="rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] text-white hidden md:block hover:scale-125 transition-all duration-300"
+                    onClick={handleDecrypt}
+                >
+                    Decrypt
+                </button>
+            ) : (
+                <p className='text-white'>No encrypted data to decrypt</p>
+            )}
             {decryptedData && (
                 <div>
                     <h2 className='text-white'>Decrypted Data</h2>

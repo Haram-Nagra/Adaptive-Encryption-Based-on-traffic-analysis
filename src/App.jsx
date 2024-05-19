@@ -2,6 +2,7 @@ import Layout from "./pages/layout";
 import Home from "./pages/home"
 import Encrypt from "./pages/encrypt";
 import Decrypt from "./pages/decrypt";
+import Attack from "./pages/attck";
 import {
   BrowserRouter,
   Routes,
@@ -18,6 +19,7 @@ export default function App() {
           <Route path ="/" element={<Home/>} />
           <Route path="/encrypt" element={<Encrypt/>}/>
           <Route path ="/decrypt" element={<Decrypt/>} />
+          <Route path ="/attack" element={<Attack/>} />
       </Routes>
     </Layout>
     </BrowserRouter>

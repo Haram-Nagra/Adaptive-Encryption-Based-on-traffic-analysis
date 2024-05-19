@@ -27,8 +27,8 @@ return (
             animationSpeed={5}
             containerClassName="bg-transparent"
             colors={[
-            [59, 250, 246],
-            [139, 92, 246],
+                [59, 130, 246],
+                [139, 92, 246],
             ]}
             opacities={[0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 1]}
             dotSize={2}
