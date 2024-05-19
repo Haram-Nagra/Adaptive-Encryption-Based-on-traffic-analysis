@@ -36,13 +36,13 @@ const EncryptionForm = () => {
         <div className='font-serif flex flex-col items-center gap-y-5'>
             <h1 className='text-4xl text-center text-white font-bold'>Adaptive Encryption</h1>
             <input
-                className='text-lg text-white font-thin border rounded-3xl w-[400px] p-2 px-3 bg-gray-600 bg-opacity-40'
+                className='text-lg text-white font-thin border rounded-3xl w-[400px] p-2 px-3 bg-gray-600 bg-opacity-40 border-slate-400'
                 type="text"
                 value={inputData}
                 onChange={(e) => setInputData(e.target.value)}
                 placeholder="Enter data to encrypt"
             />
-            <textarea className="w-[400px] h-[300px] text-lg text-white font-thin border rounded-3xl  p-2 px-3 bg-gray-600 bg-opacity-40"
+            <textarea className="w-[400px] h-[300px] text-lg text-white font-thin border rounded-3xl  p-2 px-3 bg-gray-600 bg-opacity-40  border-slate-400"
                 placeholder="Ciphertext"
                 value={textareaValue}
                 readOnly>

@@ -1,7 +1,10 @@
 import DecryptionForm from "../components/decrypt-form";
+import Lamp from "../components/lamp";
 
 export default function Decrypt(){
     return(
-        <DecryptionForm></DecryptionForm>
+        <Lamp>
+            <DecryptionForm/>
+        </Lamp>
     )
 }
