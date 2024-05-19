@@ -4,7 +4,7 @@ export default function Layout({children}) {
   return (
     <>
     <header className=" flex flex-row text-[#FFFFFF] bg-[#0F0F0F] font-bold">
-        <nav className="flex flex-row p-2 px-40 gap-x-10 justify-between w-full bg-black border-b border-b-[#545454] sticky ">
+        <nav className="flex flex-row p-2 px-40 gap-x-10 justify-between w-full bg-[#020811f4] border-b border-b-[#545454] sticky ">
             <div className="flex items-center">
                 <Link to={"/"}>Home</Link>
             </div>

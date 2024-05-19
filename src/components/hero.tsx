@@ -12,7 +12,7 @@ return (
     onMouseLeave={() => setHovered(false)}
     className="h-[47rem] flex flex-col lg:flex-row overflow-hidden items-center justify-center bg-black w-full gap-4 mx-auto px-8 relative"
 >
-    <p className="md:text-6xl text-2xl font-serif font-medium tracking-tight text-center text-white relative z-20 max-w-6xl mx-auto">
+    <p className="md:text-6xl text-2xl font-serif font-medium tracking-tight text-center text-slate-400 text-opacity-100 relative z-20 max-w-6xl mx-auto">
     Adaptive Encryption Based on Traffic Analysis
     </p>
     <AnimatePresence>
@@ -27,8 +27,8 @@ return (
             animationSpeed={5}
             containerClassName="bg-transparent"
             colors={[
-                [59, 130, 246],
-                [139, 92, 246],
+                [0, 150 ,255],
+                [0, 150 ,255],
             ]}
             opacities={[0.2, 0.2, 0.2, 0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 1]}
             dotSize={2}

@@ -2,7 +2,7 @@ import Layout from "./pages/layout";
 import Home from "./pages/home"
 import Encrypt from "./pages/encrypt";
 import Decrypt from "./pages/decrypt";
-import Attack from "./pages/attck";
+import Attack from "./pages/attack";
 import {
   BrowserRouter,
   Routes,
