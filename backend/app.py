@@ -27,9 +27,9 @@ class AdaptiveEncryption:
         return cipher.decrypt_and_verify(ciphertext, tag)
 
     def adjust_encryption_strength(self, traffic_volume):
-        if traffic_volume > 1000000:  # High traffic threshold (example)
+        if traffic_volume >= 1000000:  # High traffic threshold (example)
             self.current_key_size = self.key_sizes[2]
-        elif traffic_volume > 500000:  # Medium traffic threshold (example)
+        elif traffic_volume >= 500000:  # Medium traffic threshold (example)
             self.current_key_size = self.key_sizes[1]
         else:
             self.current_key_size = self.key_sizes[0]
