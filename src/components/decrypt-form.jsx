@@ -19,7 +19,7 @@ const DecryptionForm = () => {
     };
 
     return (
-        <div className='font-serif -mt-40 flex flex-col items-center gap-y-5 bg-gradient from-[#000000] to-[#130F40]'>
+        <div className='font-serif -mt-60 flex flex-col items-center gap-y-5 bg-gradient from-[#000000] to-[#130F40]'>
             <h1 className='text-4xl text-center text-white font-bold'>Decrypt Data</h1>
             {encryptionResult ? (
                 <button
