@@ -1,24 +1,27 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
 import { decryptData } from '../services/encryption-service';
+import { EncryptionContext } from './Encryption-Context';
 
 const DecryptionForm = () => {
-    const location = useLocation();
+    const { encryptionResult } = useContext(EncryptionContext);
     const [decryptedData, setDecryptedData] = useState(null);
-    const encryptedData = location.state?.encryptedData;
 
     const handleDecrypt = async () => {
-        if (encryptedData) {
-            const { nonce, ciphertext, tag } = encryptedData;
-            const response = await decryptData(nonce, ciphertext, tag);
-            setDecryptedData(response.data);
+        if (encryptionResult) {
+            const { nonce, ciphertext, tag } = encryptionResult;
+            try {
+                const response = await decryptData(nonce, ciphertext, tag);
+                setDecryptedData(response.data);
+            } catch (error) {
+                console.error('Decryption failed:', error.message);
+            }
         }
     };
 
     return (
-        <div className='font-serif mt-36 flex flex-col items-center gap-y-10 bg-gradient from-[#000000] to-[#130F40]'>
+        <div className='font-serif -mt-40 flex flex-col items-center gap-y-5 bg-gradient from-[#000000] to-[#130F40]'>
             <h1 className='text-4xl text-center text-white font-bold'>Decrypt Data</h1>
-            {encryptedData ? (
+            {encryptionResult ? (
                 <button
                     className="rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] text-white hidden md:block hover:scale-125 transition-all duration-300"
                     onClick={handleDecrypt}
@@ -26,12 +29,15 @@ const DecryptionForm = () => {
                     Decrypt
                 </button>
             ) : (
-                <p className='text-white'>No encrypted data to decrypt</p>
+                <p className='text-white mt-10'>No encrypted data to decrypt</p>
             )}
             {decryptedData && (
                 <div>
-                    <h2 className='text-white'>Decrypted Data</h2>
-                    <p className='text-white'>{decryptedData}</p>
+                    <textarea
+                        className="w-[400px] h-[200px] text-lg text-white font-thin border rounded-3xl p-2 px-3 bg-gray-600 bg-opacity-40"
+                        value={decryptedData}
+                        readOnly
+                    />
                 </div>
             )}
         </div>

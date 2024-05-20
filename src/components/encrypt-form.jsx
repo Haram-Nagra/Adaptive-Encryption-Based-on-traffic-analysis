@@ -1,29 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { encryptData, decryptData } from '../services/encryption-service';
+import React, { useContext, useState } from 'react';
+import { encryptData } from '../services/encryption-service';
+import { EncryptionContext } from './Encryption-Context';
 
-const EncryptionForm = () => {
-    const [inputData, setInputData] = useState('');
-    const [encryptedData, setEncryptedData] = useState(null);
-    const [textareaValue, setTextareaValue] = useState('');
+const EncryptForm = () => {
+    const [data, setData] = useState('');
     const [threshold, setThreshold] = useState(1000000); // Default threshold
-    const navigate = useNavigate();
+    const { encryptionResult, setEncryptionResult } = useContext(EncryptionContext);
 
     const handleEncrypt = async () => {
         try {
-            const response = await encryptData(inputData, threshold); // Pass threshold to encryptData
-            setEncryptedData(response);
-            setTextareaValue(`Nonce: ${response.nonce}\nCiphertext: ${response.ciphertext}\nTag: ${response.tag}\nKey: ${response.key_size}`);
+            const response = await encryptData(data, threshold);
+            setEncryptionResult(response);
+            console.log('Encrypted data:', response);
         } catch (error) {
             console.error('Encryption failed:', error.message);
-        }
-    };
-
-    const handleNavigateToDecrypt = () => {
-        if (encryptedData) {
-            navigate('/decrypt', { state: { encryptedData } });
-        } else {
-            alert("No encrypted data available. Please encrypt data first.");
         }
     };
 
@@ -38,22 +28,27 @@ const EncryptionForm = () => {
             <input
                 className='text-lg text-white font-thin border rounded-3xl w-[400px] p-2 px-3 bg-gray-600 bg-opacity-40 border-slate-400'
                 type="text"
-                value={inputData}
-                onChange={(e) => setInputData(e.target.value)}
+                value={data}
+                onChange={(e) => setData(e.target.value)}
                 placeholder="Enter data to encrypt"
             />
-            <textarea className="w-[400px] h-[300px] text-lg text-white font-thin border rounded-3xl  p-2 px-3 bg-gray-600 bg-opacity-40  border-slate-400"
+            <textarea
+                className="w-[400px] h-[300px] text-lg text-white font-thin border rounded-3xl p-2 px-3 bg-gray-600 bg-opacity-40 border-slate-400"
                 placeholder="Ciphertext"
-                value={textareaValue}
-                readOnly>
-            </textarea>
+                value={
+                    encryptionResult
+                        ? `Nonce: ${encryptionResult.nonce}\nCiphertext: ${encryptionResult.ciphertext}\nTag: ${encryptionResult.tag}\nKey Size: ${encryptionResult.key_size}-bit`
+                        : ''
+                }
+                readOnly
+            />
             <div className="flex items-center gap-x-4 text-gray-400 font-thin accent-[#2B4162]">
                 <div>
                     <label>
                         <input
                             type="radio"
-                            value={10}
-                            checked={threshold === 10}
+                            value={1000000}
+                            checked={threshold === 1000000}
                             onChange={handleThresholdChange}
                         />
                         High Traffic
@@ -63,8 +58,8 @@ const EncryptionForm = () => {
                     <label>
                         <input
                             type="radio"
-                            value={5}
-                            checked={threshold === 5}
+                            value={500000}
+                            checked={threshold === 500000}
                             onChange={handleThresholdChange}
                             className='bg-transparent'
                         />
@@ -83,11 +78,14 @@ const EncryptionForm = () => {
                     </label>
                 </div>
             </div>
-            <button className="rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] text-white hidden md:block hover:scale-125 transition-all duration-300"
-                onClick={handleEncrypt}>Encrypt
+            <button
+                className="rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] text-white hidden md:block hover:scale-125 transition-all duration-300"
+                onClick={handleEncrypt}
+            >
+                Encrypt
             </button>
         </div>
     );
 };
 
-export default EncryptionForm;
+export default EncryptForm;

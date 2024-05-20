@@ -3,6 +3,7 @@ from flask_cors import CORS
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
 import psutil
+from itertools import product
 
 app = Flask(__name__)
 CORS(app)  # Allow requests from the React app's origin
@@ -25,14 +26,10 @@ class AdaptiveEncryption:
         cipher = AES.new(self.key, AES.MODE_GCM, nonce=nonce)
         return cipher.decrypt_and_verify(ciphertext, tag)
 
-    def analyze_traffic(self):
-        net_io = psutil.net_io_counters()
-        return net_io.bytes_sent + net_io.bytes_recv
-
     def adjust_encryption_strength(self, traffic_volume):
-        if traffic_volume >= 10:  # High traffic threshold (example)
+        if traffic_volume > 1000000:  # High traffic threshold (example)
             self.current_key_size = self.key_sizes[2]
-        elif traffic_volume >= 5:  # Medium traffic threshold (example)
+        elif traffic_volume > 500000:  # Medium traffic threshold (example)
             self.current_key_size = self.key_sizes[1]
         else:
             self.current_key_size = self.key_sizes[0]
@@ -69,7 +66,6 @@ def encrypt():
         'key_size': key_size  # Include key size in the response
     })
 
-
 @app.route('/decrypt', methods=['POST'])
 def decrypt():
     nonce = bytes.fromhex(request.json.get('nonce'))
@@ -81,6 +77,30 @@ def decrypt():
         return jsonify({'data': decrypted_data.decode()})
     except ValueError:
         return jsonify({'error': 'Decryption failed'}), 400
+
+@app.route('/attack', methods=['POST'])
+def attack():
+    nonce = bytes.fromhex(request.json.get('nonce'))
+    ciphertext = bytes.fromhex(request.json.get('ciphertext'))
+    tag = bytes.fromhex(request.json.get('tag'))
+    
+    def brute_force_attack(nonce, ciphertext, tag):
+        # Iterate through all possible 128-bit keys
+        for key_bytes in product(range(256), repeat=16):
+            key = bytes(key_bytes)
+            try:
+                cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+                decrypted_data = cipher.decrypt_and_verify(ciphertext, tag)
+                return key.hex(), decrypted_data.decode()
+            except (ValueError, KeyError):
+                continue
+        return None, None
+
+    key, decrypted_data = brute_force_attack(nonce, ciphertext, tag)
+    if key:
+        return jsonify({'key': key, 'data': decrypted_data})
+    else:
+        return jsonify({'error': 'Key not found'}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)

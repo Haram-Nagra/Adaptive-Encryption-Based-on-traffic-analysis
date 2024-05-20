@@ -3,7 +3,7 @@ import Lamp from "../components/lamp";
 
 export default function Decrypt(){
     return(
-        <Lamp>
+        <Lamp paddingY="py-56">
             <DecryptionForm/>
         </Lamp>
     )

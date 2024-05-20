@@ -14,7 +14,7 @@ export default function Lamp2({ children }) {
                     duration: 0.8,
                     ease: "easeInOut",
                 }}
-                className="-mt-96 bg-gradient-to-br from-slate-300 to-slate-500 py-16 bg-clip-text text-center font-medium tracking-tight text-transparent"
+                className="-mt-96 bg-gradient-to-br from-slate-300 to-slate-500 py-20 bg-clip-text text-center font-medium tracking-tight text-transparent"
             >
             <div>
                 {children}

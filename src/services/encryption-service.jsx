@@ -27,3 +27,17 @@ export const decryptData = async (nonce, ciphertext, tag) => {
     }
     return response.json();
 };
+
+export const attackData = async (nonce, ciphertext, tag) => {
+    const response = await fetch(`${API_URL}/attack`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nonce, ciphertext, tag }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to attack data');
+    }
+    return response.json();
+};

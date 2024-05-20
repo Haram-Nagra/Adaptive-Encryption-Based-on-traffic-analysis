@@ -5,7 +5,7 @@ import Lamp from "../components/lamp";
 export default function Encrypt() {
     return (
 
-        <Lamp>
+        <Lamp paddingY="py-16">
             <EncryptionForm />
         </Lamp>
     );

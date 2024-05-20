@@ -3,7 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { LampContainer } from "./lamp-demo";
 
-export default function Lamp({ children }) {
+export default function Lamp({ children,paddingY }) {
     return (
         <LampContainer className="flex flex-col items-center relative">
             <motion.h1
@@ -14,7 +14,7 @@ export default function Lamp({ children }) {
                     duration: 0.8,
                     ease: "easeInOut",
                 }}
-                className="-mt-96 bg-gradient-to-br from-slate-300 to-slate-500 py-16 bg-clip-text text-center font-medium tracking-tight text-transparent"
+                className={`${paddingY} -mt-96 bg-gradient-to-br from-slate-300 to-slate-500 bg-clip-text text-center font-medium tracking-tight text-transparent`}
             >
             <div>
                 {children}
