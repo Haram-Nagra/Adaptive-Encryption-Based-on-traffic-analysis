@@ -1,27 +1,35 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import "../index.css";
 
-export default function Layout({children}) {
+export default function Layout({ children }) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <>
-    <header className=" flex flex-row text-[#FFFFFF] bg-[#0F0F0F] font-bold">
-        <nav className="flex flex-row p-2 px-40 gap-x-10 justify-between w-full bg-[#020811f4] border-b border-b-[#545454] sticky ">
-            <div className="flex items-center">
-                <Link to={"/"}>Home</Link>
-            </div>
-            <div className="flex flex-row p-3 gap-x-10 ">
-                <Link to={"/attack"} className="hidden text-base md:block hover:underline" >Attack</Link>
-                <Link to={"/decrypt"} className="hidden text-base md:block hover:underline" >Decrypt</Link>
-                <button className=" rounded-xl h-[30px] w-[96px] -mt-1 bg-[#2B4162] hidden md:block hover:scale-125 transition-all duration-300">
-                    <Link to={"/encrypt"} className="hidden text-base md:block">Encrypt</Link>
-                </button>
-                <a className="block w-[26px] h-[26px]  md:hidden "
-                    ><div className="ham bg-auto object-contain h-full w-full"></div></a>
-            </div>
+    <div className="flex flex-col h-screen overflow-hidden">
+      <header className="bg-[#0F0F0F] text-white font-bold h-16 relative z-10">
+        <nav className="flex items-center justify-between p-4 px-20 bg-[#020811f4] border-b border-b-[#545454]">
+          <div className="flex items-center">
+            <Link to={"/"}>Home</Link>
+          </div>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="block md:hidden"
+          >
+            <div className="w-6 h-6 bg-white mask-hamburger"></div>
+          </button>
+          <div className={`md:flex ${isMenuOpen ? 'flex' : 'hidden'} flex-col md:flex-row absolute md:relative left-0 right-0 top-16 md:top-0 bg-[#020811f4] w-full md:w-auto z-20`}>
+            <Link to={"/attack"} className="py-2 px-4 hover:underline">Attack</Link>
+            <Link to={"/decrypt"} className="py-2 px-4 hover:underline">Decrypt</Link>
+            <Link to={"/encrypt"} className="py-2 px-4 bg-[#2B4162] rounded-xl hover:scale-105 transition-all duration-300">
+              Encrypt
+            </Link>
+          </div>
         </nav>
-    </header>
-      <main>{children}</main>
-      
-      <footer></footer>
-    </>
+      </header>
+      <main className="flex-grow">
+        {children}
+      </main>
+    </div>
   );
 }
